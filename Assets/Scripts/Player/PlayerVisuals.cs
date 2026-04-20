@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerVisuals : MonoBehaviour
 {
+    // Private References
     private Rigidbody2D rb;
     private Vector3 originalScale;
 

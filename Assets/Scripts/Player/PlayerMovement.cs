@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
     public float moveSpeed = 0F;
     public float jumpForce = 0F;
+    private bool movementEnabled = true;
 
     [Header("Dash Settings")]
     public float dashSpeed = 0F;
@@ -33,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     public float wallSlideSpeed = 0F;
     private bool isWallClinging = false;
 
-    // Private Variables
+    // Private References
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private bool isGrounded;
@@ -54,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         if (isDashing) return;
+        if (!movementEnabled) return; 
 
         moveInput = controls.Player.Move.ReadValue<Vector2>();
 
@@ -101,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if (isDashing) return;
+        if (!movementEnabled) return;
 
         rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
 
@@ -145,5 +148,14 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(1.2F);
         canDash = true;
+    }
+
+    public void ToggleMovement(bool state)
+    {
+        movementEnabled = state;
+        if (!state)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 }
